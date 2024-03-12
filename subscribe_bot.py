@@ -3,6 +3,7 @@ import requests
 import mysql.connector
 import asyncio
 import datetime
+import random
 from urllib.parse import quote
 from mysql.connector import errorcode
 from interactions import slash_command, SlashContext, OptionType, slash_option, AutocompleteContext, Member
@@ -202,7 +203,17 @@ async def google(ctx: SlashContext, keywords: str):
     opt_type=OptionType.USER
 )
 async def fuck(ctx: SlashContext, user: Member):
-    await ctx.send(f"{user.mention}我唔撚柒鳩屌你個冚家剷含撚笨柒個老母個生滋甩毛嘅爛臭化花柳白濁梅毒性冷感閪都唔撚柒得陰陽面邊大邊細豬閪燉糯米雙番閪遮面長短腳谷精上腦陽萎笨柒周頭發炎陰蝨周圍跳白竇臭滴蟲入鳩祖宗十八代食屎撈屄周揈揈白痴戇鳩閪 我屌你老母十八代柒頭撚樣系垃圾狗屎on鳩formula無撚用到喊數字柒頭死全家仆你個臭街一見到就想嘔番曬大大大前日嘅早餐生出黎害鳩人咁柒就咪撚出黎獻世啦一碌柒咁onj幾撚有心機都無鳩用啦屌你老母芝士漢堡柒頭皮 屌你老母 芝士漢堡屌你老豆 宿埋一舊 屌你家姐 落雨擔遮 屌你家姐 快過火車 屌你呀爺 笑口畸畸 屌你呀麻 泰國喇嘛屌你呀妹碌柒崩潰屌你阿哥 好過渣波 屌你屎忽化痰止咳 屌你個仔 屎忽扭計 屌你個咀 刷牙唔用涮口水 屌你老母仆街陷家產食屎收皮啦屌你. 戇撚鳩鳩食撚晒賓州咁屌你老母咁既仆街死樣. 吹撚脹? 你係生出黎俾我屌撚柒嫁啦仆街陷家產. 屌足你十世,屌你老母正仆街陷家產屌你祖宗十八代仆街含家產你老母生花柳,你老豆生龜頭癌呀柒仔收皮吧啦施主收皮啦傻仔你老母日日要比人屌就係因為你呢d咁既傻仔呀慘過做雞同企街證明你條契弟祖宗十八代都作孽,生你件仆街仔,九成九冇屎忽我頂你個肺插你個胃按你肚池機關制屌你老祖十八代 代代冇春代含撚啦你仆街含家產九歲扮做雞 十歲同人玩結婚十一歲學人做飛仔 十二歲扮做鴨十九歲學人上廿歲去夜總會二十一歲去做鴨二十二歲生花柳愛滋仆街死食揉屎啦屌你老母祖宗十鳩撚春鳩柒代撚頭西屎啦!屌你老母斬你全家你老母老婆比我強姦十次八次啦絕子絕孫啦你正一狗雜種我屌你老母啦你老母一定用屎餵大你條死戇鳩仔 你呢條敗類你條撚 樣想唔屌你都唔得, 你個臭貨老母同野狗狗合生埋你呢仆街仔廢柴屌你祖宗18代有愛滋有爺生無家教不知所謂多行不義必自斃屌你老母仆你個街杏家產死傻西屌你老母仆街啦你阻撚住晒個地球轉 正一憾家剷屌你老母臭花西! 你老豆老母性器官一定有問題啦 生你條撚樣出黎冇賓周冇精蟲死基佬我屌鳩柒你就梗架啦我係鐘意屌鳩你祖宗18個春袋呀你吹撚柒碌我帳呀﻿")
+    cursor = cnx.cursor()
+    cursor.execute("SELECT content FROM sentences WHERE type = 2")
+    result = cursor.fetchall()
+
+    sentences = []
+    for row in result:
+        sentences.append(row[0])
+    sentence = random.choice(sentences)
+
+    await ctx.send(f"{user.mention}" + " " + sentence)
+    
 
 def subscribe_from_anime1(url, user_id, user_channel):
     try:
