@@ -8,9 +8,12 @@ from urllib.parse import quote
 from mysql.connector import errorcode
 from interactions import slash_command, SlashContext, OptionType, slash_option, AutocompleteContext, Member
 from bs4 import BeautifulSoup
+from openai import OpenAI
 
 bot = interactions.Client()
 cnx = mysql.connector.connect(user='root', password='00000000', host='127.0.0.1', database='anime')
+BOT_TOKEN = "BOT_TOKEN"
+client = OpenAI(api_key = "API_KEY")
 
 async def check_updates():
     print('checked')
@@ -204,15 +207,45 @@ async def google(ctx: SlashContext, keywords: str):
 )
 async def fuck(ctx: SlashContext, user: Member):
     cursor = cnx.cursor()
-    cursor.execute("SELECT content FROM sentences WHERE type = 2")
-    result = cursor.fetchall()
 
-    sentences = []
-    for row in result:
-        sentences.append(row[0])
-    sentence = random.choice(sentences)
+    try:
+        cursor.execute("SELECT content FROM sentences WHERE type = 2")
+        result = cursor.fetchall()
 
-    await ctx.send(f"{user.mention}" + " " + sentence)
+        sentences = []
+        for row in result:
+            sentences.append(row[0])
+        sentence = random.choice(sentences)
+
+        await ctx.send(f"{user.mention}" + " " + sentence)
+
+    except mysql.connector.Error as e:
+        if e.errno == errorcode.ER_DUP_ENTRY:
+            return "Error: Duplicate entry."
+        else:
+            return "Error: " + str(e)
+        
+    finally:
+        cnx.commit()
+        cursor.close()
+
+@slash_command(name="chatgpt", description="OpenAI")
+@slash_option(
+    name="prompt",
+    description="輸入你嘅問題",
+    required=True,
+    opt_type=OptionType.STRING
+)
+async def chatgpt(ctx: SlashContext, prompt: str):
+    completion = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": prompt}
+        ]
+    )
+
+    await ctx.send(completion.choices[0].message)
+        
     
 
 def subscribe_from_anime1(url, user_id, user_channel):
@@ -399,4 +432,4 @@ async def notify_subscriber(user_id, user_channel, title, url):
     print('Notify user: ' + user_id + ' in channel: ' + user_channel + ' with title: ' + title + ' and url: ' + url)
     await text_channel.send('<@' + user_id + '> ' + title + ' 有更新！<' + url + '>')
 
-bot.start("MTIxMTU1ODcyNzE3ODY0OTY1MA.GxA4hW.k9h72c-538Yg1lh0W3RUB_844DOtAsmPnDALiw")
+bot.start(BOT_TOKEN)
