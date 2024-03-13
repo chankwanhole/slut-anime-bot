@@ -8,12 +8,10 @@ from urllib.parse import quote
 from mysql.connector import errorcode
 from interactions import slash_command, SlashContext, OptionType, slash_option, AutocompleteContext, Member
 from bs4 import BeautifulSoup
-from openai import OpenAI
 
 bot = interactions.Client()
 cnx = mysql.connector.connect(user='root', password='00000000', host='127.0.0.1', database='anime')
 BOT_TOKEN = "BOT_TOKEN"
-client = OpenAI(api_key = "API_KEY")
 
 async def check_updates():
     print('checked')
@@ -228,25 +226,7 @@ async def fuck(ctx: SlashContext, user: Member):
     finally:
         cnx.commit()
         cursor.close()
-
-@slash_command(name="chatgpt", description="OpenAI")
-@slash_option(
-    name="prompt",
-    description="輸入你嘅問題",
-    required=True,
-    opt_type=OptionType.STRING
-)
-async def chatgpt(ctx: SlashContext, prompt: str):
-    completion = client.chat.completions.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": prompt}
-        ]
-    )
-
-    await ctx.send(completion.choices[0].message)
         
-    
 
 def subscribe_from_anime1(url, user_id, user_channel):
     try:
