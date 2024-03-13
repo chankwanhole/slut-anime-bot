@@ -242,7 +242,7 @@ async def chat(ctx: SlashContext, prompt: str):
         model="claude-instant-1.2",
         max_tokens=4000,
         messages=[
-            {"role": "user", "content": str}
+            {"role": "user", "content": prompt}
         ]
     )
 
