@@ -238,6 +238,8 @@ async def fuck(ctx: SlashContext, user: Member):
     opt_type=OptionType.STRING
 )
 async def chat(ctx: SlashContext, prompt: str):
+    # make prompt to string
+
     message = client.messages.create(
         model="claude-instant-1.2",
         max_tokens=4000,
@@ -246,7 +248,10 @@ async def chat(ctx: SlashContext, prompt: str):
         ]
     )
 
-    await ctx.send(message.content)
+    message = message.content
+    message = ''.join(message)
+
+    await ctx.send(message)
         
 
 def subscribe_from_anime1(url, user_id, user_channel):
