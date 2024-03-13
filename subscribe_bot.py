@@ -4,6 +4,7 @@ import mysql.connector
 import asyncio
 import datetime
 import random
+import anthropic
 from urllib.parse import quote
 from mysql.connector import errorcode
 from interactions import slash_command, SlashContext, OptionType, slash_option, AutocompleteContext, Member
@@ -12,6 +13,8 @@ from bs4 import BeautifulSoup
 bot = interactions.Client()
 cnx = mysql.connector.connect(user='root', password='00000000', host='127.0.0.1', database='anime')
 BOT_TOKEN = "BOT_TOKEN"
+client = anthropic.Anthropic( api_key = "API_KEY" )
+
 
 async def check_updates():
     print('checked')
@@ -226,6 +229,24 @@ async def fuck(ctx: SlashContext, user: Member):
     finally:
         cnx.commit()
         cursor.close()
+
+@slash_command(name="chat", description="Claude AI")
+@slash_option(
+    name="prompt",
+    description="輸入問題",
+    required=True,
+    opt_type=OptionType.STRING
+)
+async def chat(ctx: SlashContext, prompt: str):
+    message = client.messages.create(
+        model="claude-instant-1.2",
+        max_tokens=4000,
+        messages=[
+            {"role": "user", "content": str}
+        ]
+    )
+
+    await ctx.send(message.content)
         
 
 def subscribe_from_anime1(url, user_id, user_channel):
