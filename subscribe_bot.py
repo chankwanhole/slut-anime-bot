@@ -245,7 +245,7 @@ async def chat(ctx: SlashContext, prompt: str):
         max_tokens=4000,
         messages=[
             {"role": "user", "content": "if I asked you by chinese, you must answer me by traditional chinese, not simplified chinese."},
-            {"role": "assistant", "content": "ok, if the content includes simplified chinese, I will translate it to traditional chinese."},
+            {"role": "assistant", "content": "ok, if the content includes simplified chinese, I will translate it to traditional chinese. I won't specify I'm going to use traditional chinese to answer you. I will answer you by traditional chinese."},
             {"role": "user", "content": prompt}
         ]
     )
