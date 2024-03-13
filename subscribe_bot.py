@@ -244,14 +244,12 @@ async def chat(ctx: SlashContext, prompt: str):
         model="claude-instant-1.2",
         max_tokens=4000,
         messages=[
+            {"role": "user", "content": "if I asked you by chinese, you must answer me by traditional chinese, not simplified chinese."},
             {"role": "user", "content": prompt}
         ]
     )
 
-    message = message.content
-    message = ''.join(message)
-
-    await ctx.send(message)
+    await ctx.send(message.content[0].text)
         
 
 def subscribe_from_anime1(url, user_id, user_channel):
