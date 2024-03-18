@@ -94,7 +94,7 @@ async def check_updates():
                 else:
                     print("Error: div element not found.")
     except mysql.connector.Error as e:
-        print("Error: " + str(e))
+        return "Error: " + str(e)
     finally:
         print("updated: " + str(updated) + ", no update: " + str(no_update))
         print("last check time: " + str(datetime.datetime.now()))
