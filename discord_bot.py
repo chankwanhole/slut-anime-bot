@@ -13,8 +13,7 @@ from bs4 import BeautifulSoup
 
 bot = interactions.Client()
 cnx = mysql.connector.connect(user='root', password='00000000', host='127.0.0.1', database='anime')
-BOT_TOKEN = str(os.environ.get('BOT_TOKEN_ANIME'))
-API_KEY = str(os.environ.get('API_KEY_CLAUDE'))
+BOT_TOKEN = "BOT_TOKEN"
 client = anthropic.Anthropic( api_key = "API_KEY" )
 
 
