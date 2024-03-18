@@ -5,6 +5,7 @@ import asyncio
 import datetime
 import random
 import anthropic
+import os
 from urllib.parse import quote
 from mysql.connector import errorcode
 from interactions import slash_command, SlashContext, OptionType, slash_option, AutocompleteContext, Member
@@ -12,7 +13,8 @@ from bs4 import BeautifulSoup
 
 bot = interactions.Client()
 cnx = mysql.connector.connect(user='root', password='00000000', host='127.0.0.1', database='anime')
-BOT_TOKEN = "BOT_TOKEN"
+BOT_TOKEN = os.environ.get('BOT_TOKEN_ANIME')
+API_KEY = os.environ.get('API_KEY_CLAUDE')
 client = anthropic.Anthropic( api_key = "API_KEY" )
 
 
